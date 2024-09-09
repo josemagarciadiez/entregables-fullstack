@@ -19,7 +19,7 @@ body {
 
 .card_wrapper {
   width: 250px;
-  height: 400px;
+  height: 420px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -39,12 +39,7 @@ body {
     > div.clip {
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        180deg,
-        hsla(21, 81%, 58%, 1) 30%,
-        hsla(0, 0%, 100%, 1) 86%
-      );
-      clip-path: circle(70% at 50% 0);
+      clip-path: circle(75% at 50% 0);
     }
     > img {
       position: absolute;
@@ -69,10 +64,27 @@ body {
       font-size: 0.8rem;
       display: flex;
       justify-content: space-between;
-      > div {
+      > div.title {
         display: flex;
         flex-direction: column;
         justify-content: center;
+      }
+      > div.hp {
+        /* border: 0.5px solid lightgray; */
+        border-radius: 0.5rem;
+        box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        width: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #feca00;
+        background: linear-gradient(
+          to bottom left,
+          #feca00 38%,
+          #d07800 74%,
+          #ff9300 91%
+        );
+        color: #222224;
       }
     }
     > div.badges {
