@@ -146,6 +146,7 @@ function createPokemonCard(pokemon) {
   $header.appendChild($div_1);
 
   const $div_2 = document.createElement("div");
+  $div_2.classList.add("hp");
   const $hp_title = document.createElement("p");
   const $hp_value = document.createElement("h2");
 
