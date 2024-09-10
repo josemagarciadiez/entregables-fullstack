@@ -1,3 +1,5 @@
+"use strict";
+
 const POKEMON_TYPE_COLOR = {
   bug: "#94bc4a",
   dark: "#736c75",
@@ -53,7 +55,7 @@ const POKEMON_TYPE_GRADIENT = {
     "linear-gradient(180deg, hsla(210, 71%, 61%, 1) 30%, hsla(0, 0%, 100%, 1) 86%)",
 };
 
-function capitalizeFirstLeeter(word) {
+function capitalizeFirstLetter(word) {
   if (word.length === 0) {
     return word;
   }
@@ -138,7 +140,7 @@ function createPokemonCard(pokemon) {
   const $title = document.createElement("h2");
   const $id = document.createElement("p");
 
-  $title.innerText = capitalizeFirstLeeter(pokemon.name);
+  $title.innerText = capitalizeFirstLetter(pokemon.name);
   $id.innerText = `N° ${pokemon.id}`;
 
   $div_1.appendChild($title);
@@ -172,12 +174,12 @@ function createPokemonCard(pokemon) {
 
     const $img = document.createElement("img");
     $img.setAttribute("src", `./assets/icons/${type.name}.svg`);
-    $img.setAttribute("alt", `${capitalizeFirstLeeter(type.name)} type icon.`);
+    $img.setAttribute("alt", `${capitalizeFirstLetter(type.name)} type icon.`);
 
     $icon.appendChild($img);
 
     const $type = document.createElement("span");
-    $type.innerText = capitalizeFirstLeeter(type.name);
+    $type.innerText = capitalizeFirstLetter(type.name);
 
     $badge.appendChild($icon);
     $badge.appendChild($type);
