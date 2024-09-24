@@ -15,13 +15,7 @@ Para crear un nuevo proyecto TypeScript dentro de la carpeta `projects`, sigue e
    npm init -y
    ```
 
-3. **Instalar TypeScript**: Añade TypeScript y las dependencias necesarias, incluido ts-node-dev:
-
-   ```bash
-   npm install --save-dev typescript @types/node ts-node-dev
-   ```
-
-4. **Agregar Scripts**: Actualiza el `package.json` con scripts útiles:
+3. **Agregar Scripts**: Actualiza el `package.json` con scripts útiles:
 
    ```json
    {
@@ -34,20 +28,20 @@ Para crear un nuevo proyecto TypeScript dentro de la carpeta `projects`, sigue e
    }
    ```
 
-5. **Configurar la Estructura del Proyecto**: Crea una estructura básica para el proyecto:
+4. **Configurar la Estructura del Proyecto**: Crea una estructura básica para el proyecto:
 
    ```bash
    mkdir src
    touch src/index.ts
    ```
 
-6. **Crear tsconfig.json**: Crea un archivo `tsconfig.json`:
+5. **Crear tsconfig.json**: Crea un archivo `tsconfig.json`:
 
    ```bash
    touch tsconfig.json
    ```
 
-7. **Configura tsconfig.json**: Agrega la siguiente configuración básica al archivo `tsconfig.json`:
+6. **Configura tsconfig.json**: Agrega la siguiente configuración básica al archivo `tsconfig.json`:
 
    ```json
    {
@@ -62,6 +56,12 @@ Para crear un nuevo proyecto TypeScript dentro de la carpeta `projects`, sigue e
      "include": ["src/**/*.ts"],
      "exclude": ["node_modules"]
    }
+   ```
+
+7. **DEPENDENCIAS**: Asegurate de tener instlado TypeScript y las dependencias necesarias, incluido ts-node-dev:
+
+   ```bash
+   npm install --save-dev typescript @types/node ts-node-dev
    ```
 
 8. **Compilar y Ejecutar**: Compila el código TypeScript y ejecuta el proyecto:
