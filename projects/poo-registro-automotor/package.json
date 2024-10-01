@@ -1,0 +1,22 @@
+{
+  "name": "poo-registro-automotor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc",
+    "build": "node build/index.js",
+    "dev": "ts-node-dev src/index.ts",
+    "tnode": "ts-node-dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/uuid": "^10.0.0"
+  },
+  "dependencies": {
+    "uuid": "^10.0.0"
+  }
+}
