@@ -79,4 +79,28 @@ export class RegistroAutomotor {
       `El registro ${vehiculo.getId()} ha sido eliminado éxitosamente.`
     );
   }
+
+  public listarVehiculosPorTipo<T extends Vehiculo>(
+    tipo: new (...args: any[]) => T
+  ): void {
+    if (!this.estaAbierto) {
+      console.error(
+        "ERROR:El registro esta cerrado. Debe abrir antes de poder consultar el listado de vehículos."
+      );
+      return;
+    }
+
+    const resultado = this.vehiculos.filter(
+      (vehiculo) => vehiculo instanceof tipo
+    ) as T[];
+
+    if (resultado.length === 0) {
+      console.log(
+        "El registro no cuenta con vehículos que coincidan con el tipo consultado."
+      );
+      return;
+    }
+
+    resultado.forEach((vehiculo, index) => vehiculo.describir(index + 1));
+  }
 }
