@@ -33,8 +33,6 @@ export class Box {
     // Hago una pre mezcla de las
     const mixedSkills = mixArray(systemSkills);
 
-    console.log(mixedSkills);
-
     let randomSkills: Skill[] = [];
 
     // Hago copia auxiliar porque tengo que remover items
