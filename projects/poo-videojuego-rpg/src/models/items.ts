@@ -11,8 +11,6 @@ export class Box {
     this.opened = false;
     // Call to method that load items randomly
     this.skills = this.loadSkills(3);
-    // Show skills
-    this.showSkills();
   }
 
   public open(): Skill[] | void {
@@ -50,7 +48,7 @@ export class Box {
     return randomSkills;
   }
 
-  private showSkills(): void {
+  public showSkills(): void {
     if (this.opened) {
       console.log("This box was already open. Find another!");
       return;
