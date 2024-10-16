@@ -23,8 +23,12 @@ export abstract class Hero {
     this.skills = [];
   }
 
+  getName(): string {
+    return this.name;
+  }
+
   attack(): void {
-    console.log(`${this.name} is attaking...`);
+    console.log(`${this.name} is attaking with a basic skill...`);
   }
 
   defend(): void {
@@ -39,13 +43,15 @@ export abstract class Hero {
     return this.energy;
   }
 
-  getSkills(): void {
-    console.log(`-------- ${this.name}'s skills --------`);
-    this.skills.map((skill, index) => {
-      console.log(`${index + 1}. ${skill.name}`);
-    });
+  getSkills(): Skill[] {
+    return this.skills;
   }
 
+  /**
+   * useSkill
+   * @param index of skill
+   * @returns Skill selected
+   */
   useSkill(index: number): Skill | void {
     if (index + 1 > this.skills.length) {
       console.log(
@@ -65,7 +71,6 @@ export abstract class Hero {
   openBox(box: Box): void {
     if (box.checkState()) {
       console.log("This box was already open. Find another!");
-      return;
     }
 
     const findedSkills = box.open() as Skill[];
@@ -74,30 +79,18 @@ export abstract class Hero {
     let skillsToDiscard: Skill[] = [];
 
     findedSkills.map((skill) => {
-      // Chequear si skill no esta repetido y se puede usar
+      // Check if skill is not repited and it can be used by the character
       if (!this.skills.includes(skill) && this instanceof skill.type) {
         skillsToUse.push(skill);
-      } else {
-        skillsToDiscard.push(skill);
       }
     });
 
-    if (skillsToUse.length > 0) {
-      // Guardar skills ganadas
-      this.skills = [...this.skills, ...skillsToUse];
-      // Mostrar en pantalla que habilidades gane
-      console.log("-------- Earned skills --------");
-      skillsToUse.forEach((skill, index) => {
-        console.log(`${index + 1}. ${skill.name}`);
-      });
-    }
+    this.skills = [...this.skills, ...skillsToUse];
 
-    if (skillsToDiscard.length > 0) {
-      // Mostrar en pantalla que habilidades descarto
-      console.log("-------- Discarded skills --------");
-      skillsToDiscard.forEach((skill, index) => {
-        console.log(`${index + 1}. ${skill.name}`);
-      });
+    if (skillsToUse.length > 0) {
+      console.log(`Congrats! You have earned ${skillsToUse.length} skills.`);
+    } else {
+      console.log("Sorry, you win no skills in this round :(");
     }
 
     // TODO: Perhaps the Hero can win points of (magic | arrows | strenght)
@@ -112,7 +105,7 @@ export class Wizard extends Hero {
 
   constructor(name: string) {
     super(name);
-    this.magic = 1;
+    this.magic = 25;
   }
 
   // Polimorfismo y sobrecarga de metodo
@@ -140,7 +133,23 @@ export class Archer extends Hero {
 
   constructor(name: string) {
     super(name);
-    this.arrows = 1;
+    this.arrows = 25;
+  }
+  // Polimorfismo y sobrecarga de metodo
+  attack(skill?: Skill): void {
+    if (skill) {
+      if (this.arrows < skill.cost) {
+        console.log(
+          `${this.name} doesn't have the neccesry amount of arrows to use the ${skill.name} skill`
+        );
+        return;
+      }
+      this.arrows -= skill.cost;
+      this.xp += skill.xp;
+      console.log(`${this.name} is attaking with: ${skill.name}`);
+    } else {
+      console.log(`${this.name} is attaking...`);
+    }
   }
 
   levelUp(): void {}
@@ -151,7 +160,23 @@ export class Fighter extends Hero {
 
   constructor(name: string) {
     super(name);
-    this.strength = 1;
+    this.strength = 25;
+  }
+  // Polimorfismo y sobrecarga de metodo
+  attack(skill?: Skill): void {
+    if (skill) {
+      if (this.strength < skill.cost) {
+        console.log(
+          `${this.name} doesn't have the neccesry strength to use the ${skill.name} skill`
+        );
+        return;
+      }
+      this.strength -= skill.cost;
+      this.xp += skill.xp;
+      console.log(`${this.name} is attaking with: ${skill.name}`);
+    } else {
+      console.log(`${this.name} is attaking...`);
+    }
   }
 
   levelUp(): void {}
