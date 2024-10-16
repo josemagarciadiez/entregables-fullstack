@@ -1,16 +1,97 @@
-import { Wizard } from "./models/characters";
+import inquirer from "inquirer";
+import { Hero, Archer, Fighter, Wizard } from "./models/characters";
 import { Box } from "./models/items";
 
-const wizard = new Wizard("Dumbledore");
+async function chooseCharacter(): Promise<Hero> {
+  const answers = await inquirer.prompt([
+    {
+      type: "list",
+      name: "character",
+      message: "Choose your character:",
+      choices: [
+        { name: "Wizard", value: "wizard" },
+        { name: "Archer", value: "archer" },
+        { name: "Fighter", value: "fighter" },
+      ],
+    },
+    {
+      type: "input",
+      name: "name",
+      message: "What is your character name?",
+    },
+  ]);
 
-const box_1 = new Box();
-const box_2 = new Box();
+  if (answers.character === "wizard") {
+    return new Wizard(answers.name);
+  } else if (answers.character === "archer") {
+    return new Archer(answers.name);
+  } else {
+    return new Fighter(answers.name);
+  }
+}
 
-wizard.openBox(box_1);
-wizard.openBox(box_2);
+async function attack(character: Hero) {
+  const options = character.getSkills().map((skill, index) => {
+    return { name: skill.name, value: index };
+  });
 
-wizard.getSkills();
+  let selectedSkill;
+  if (options.length > 0) {
+    const answer = await inquirer.prompt([
+      {
+        type: "list",
+        name: "skill",
+        message: "Choose attack: ",
+        choices: options,
+      },
+    ]);
 
-wizard.attack(wizard.useSkill(2) || undefined);
+    selectedSkill = character.useSkill(answer.skill);
+  } else {
+    console.log(
+      "Your character doesn't have any skills to attack, yet!\n You must open a Box to win any skills."
+    );
+  }
 
-wizard.getSkills();
+  if (selectedSkill) {
+    if (
+      character instanceof Wizard ||
+      character instanceof Archer ||
+      character instanceof Fighter
+    ) {
+      character.attack(selectedSkill);
+    }
+  } else {
+    character.attack();
+  }
+}
+
+async function openBox(character: Hero) {
+  const random_boxes = [new Box(), new Box(), new Box()];
+
+  const answer = await inquirer.prompt([
+    {
+      type: "list",
+      name: "box",
+      message: `Please choose a gift box for ${character.getName()} to open: `,
+      choices: [
+        { name: "Box n° 1", value: 0 },
+        { name: "Box n° 2", value: 1 },
+        { name: "Box n° 3", value: 2 },
+      ],
+    },
+  ]);
+
+  const selectedBox = random_boxes[answer.box];
+
+  character.openBox(selectedBox);
+}
+
+async function startGame() {
+  console.log("Welcome to the RPG Game!");
+  const myHero = await chooseCharacter();
+  await openBox(myHero);
+  await attack(myHero);
+}
+
+startGame();
