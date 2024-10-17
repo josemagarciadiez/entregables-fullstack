@@ -87,11 +87,41 @@ async function openBox(character: Hero) {
   character.openBox(selectedBox);
 }
 
+async function chooseAction() {
+  const actions = [
+    () => console.log("fn_1"),
+    () => console.log("fn_2"),
+    () => console.log("fn_3"),
+    () => console.log("fn_3"),
+    () => console.log("fn_5"),
+    () => console.log("fn_6"),
+  ];
+
+  const answers = await inquirer.prompt([
+    {
+      type: "list",
+      name: "action",
+      message: "What do you want to do now?: ",
+      choices: [
+        { name: "Explore", value: 0 },
+        { name: "Fight", value: 1 },
+        { name: "Inventory", value: 2 },
+        { name: "Boxes", value: 3 },
+        { name: "Character Stats", value: 4 },
+        { name: "Exit Game", value: 5 },
+      ],
+    },
+  ]);
+
+  actions[answers.action];
+}
+
 async function startGame() {
   console.log("Welcome to the RPG Game!");
   const myHero = await chooseCharacter();
-  await openBox(myHero);
-  await attack(myHero);
+  await chooseAction();
 }
 
 startGame();
+
+// Steps of a game
