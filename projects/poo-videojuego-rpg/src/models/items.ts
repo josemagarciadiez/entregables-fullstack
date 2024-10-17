@@ -15,7 +15,7 @@ export class Box {
 
   public open(): Skill[] | void {
     if (this.opened) {
-      console.log("This box was already open. Find another!");
+      console.log("Esta caja ya fue abierta. Debes encontrar otra!");
       return;
     }
     this.opened = true;
@@ -50,12 +50,12 @@ export class Box {
 
   public showSkills(): void {
     if (this.opened) {
-      console.log("This box was already open. Find another!");
+      console.log("Esta caja ya fue abierta. Debes encontrar otra!");
       return;
     }
 
     if (this.skills.length > 0) {
-      console.log("-------- Finded skills --------");
+      console.log("-------- Ataques ganados --------");
       this.skills.forEach((skill, index) => {
         console.log(`${index + 1}. ${skill.name}`);
       });

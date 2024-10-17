@@ -28,11 +28,11 @@ export abstract class Hero {
   }
 
   attack(): void {
-    console.log(`${this.name} is attaking with a basic skill...`);
+    console.log(`${this.name} esta haciendo un ataque básico...`);
   }
 
   defend(): void {
-    console.log(`${this.name} is defending itself...`);
+    console.log(`${this.name} se esta defendiendo...`);
   }
 
   getLevel(): number {
@@ -55,7 +55,7 @@ export abstract class Hero {
   useSkill(index: number): Skill | void {
     if (index + 1 > this.skills.length) {
       console.log(
-        `The selected skill doesn't exist in the ${this.name}'s set of skills`
+        `El ataque seleccionado no existe en el inventario de ${this.name}`
       );
       return;
     }
@@ -70,13 +70,12 @@ export abstract class Hero {
 
   openBox(box: Box): void {
     if (box.checkState()) {
-      console.log("This box was already open. Find another!");
+      console.log("Esta caja ya fue abierta. Debes encontrar otra!");
     }
 
     const findedSkills = box.open() as Skill[];
 
     let skillsToUse: Skill[] = [];
-    let skillsToDiscard: Skill[] = [];
 
     findedSkills.map((skill) => {
       // Check if skill is not repited and it can be used by the character
@@ -88,9 +87,9 @@ export abstract class Hero {
     this.skills = [...this.skills, ...skillsToUse];
 
     if (skillsToUse.length > 0) {
-      console.log(`Congrats! You have earned ${skillsToUse.length} skills.`);
+      console.log(`Felicitaciones! Has ganado ${skillsToUse.length} nuevos ataques.`);
     } else {
-      console.log("Sorry, you win no skills in this round :(");
+      console.log("Lo lamento, no has ganado ningún ataque en esta ronda :(");
     }
 
     // TODO: Perhaps the Hero can win points of (magic | arrows | strenght)
@@ -113,15 +112,15 @@ export class Wizard extends Hero {
     if (skill) {
       if (this.magic < skill.cost) {
         console.log(
-          `${this.name} doesn't have the neccesry magic to use the ${skill.name} skill`
+          `${this.name} no tiene la magia necesaria para usar el ataque: ${skill.name}`
         );
         return;
       }
       this.magic -= skill.cost;
       this.xp += skill.xp;
-      console.log(`${this.name} is attaking with: ${skill.name}`);
+      console.log(`${this.name} esta atacando con: ${skill.name}`);
     } else {
-      console.log(`${this.name} is attaking...`);
+      console.log(`${this.name} esta haciendo un ataque básico...`);
     }
   }
 
@@ -140,15 +139,15 @@ export class Archer extends Hero {
     if (skill) {
       if (this.arrows < skill.cost) {
         console.log(
-          `${this.name} doesn't have the neccesry amount of arrows to use the ${skill.name} skill`
+          `${this.name} no tiene la cantidad necesaria de flechas para usar el ataque: ${skill.name}`
         );
         return;
       }
       this.arrows -= skill.cost;
       this.xp += skill.xp;
-      console.log(`${this.name} is attaking with: ${skill.name}`);
+      console.log(`${this.name} esta atacando con: ${skill.name}`);
     } else {
-      console.log(`${this.name} is attaking...`);
+      console.log(`${this.name} esta haciendo un ataque básico...`);
     }
   }
 
@@ -167,15 +166,15 @@ export class Fighter extends Hero {
     if (skill) {
       if (this.strength < skill.cost) {
         console.log(
-          `${this.name} doesn't have the neccesry strength to use the ${skill.name} skill`
+          `${this.name} no tiene la fuerza necesaria para usar el ataque: ${skill.name}`
         );
         return;
       }
       this.strength -= skill.cost;
       this.xp += skill.xp;
-      console.log(`${this.name} is attaking with: ${skill.name}`);
+      console.log(`${this.name} esta atacando con: ${skill.name}`);
     } else {
-      console.log(`${this.name} is attaking...`);
+      console.log(`${this.name} esta haciendo un ataque básico...`);
     }
   }
 
