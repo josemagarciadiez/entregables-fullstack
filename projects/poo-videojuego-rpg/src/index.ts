@@ -7,17 +7,17 @@ async function chooseCharacter(): Promise<Hero> {
     {
       type: "list",
       name: "character",
-      message: "Choose your character:",
+      message: "Elige tu personaje:",
       choices: [
-        { name: "Wizard", value: "wizard" },
-        { name: "Archer", value: "archer" },
-        { name: "Fighter", value: "fighter" },
+        { name: "Mago", value: "wizard" },
+        { name: "Arquero", value: "archer" },
+        { name: "Luchador", value: "fighter" },
       ],
     },
     {
       type: "input",
       name: "name",
-      message: "What is your character name?",
+      message: "¿Cúal es el nombre de tu personaje?: ",
     },
   ]);
 
@@ -41,7 +41,7 @@ async function attack(character: Hero) {
       {
         type: "list",
         name: "skill",
-        message: "Choose attack: ",
+        message: "Selecciona un ataque: ",
         choices: options,
       },
     ]);
@@ -49,7 +49,7 @@ async function attack(character: Hero) {
     selectedSkill = character.useSkill(answer.skill);
   } else {
     console.log(
-      "Your character doesn't have any skills to attack, yet!\n You must open a Box to win any skills."
+      "Tu personaje no tiene ningun ataque en el inventario aún.\n Debes abrir una Caja para ganar ataques."
     );
   }
 
@@ -73,11 +73,11 @@ async function openBox(character: Hero) {
     {
       type: "list",
       name: "box",
-      message: `Please choose a gift box for ${character.getName()} to open: `,
+      message: `Por favor elije una caja sorpresa para que ${character.getName()} abra: `,
       choices: [
-        { name: "Box n° 1", value: 0 },
-        { name: "Box n° 2", value: 1 },
-        { name: "Box n° 3", value: 2 },
+        { name: "Caja n° 1", value: 0 },
+        { name: "Caja n° 2", value: 1 },
+        { name: "Caja n° 3", value: 2 },
       ],
     },
   ]);
@@ -87,39 +87,32 @@ async function openBox(character: Hero) {
   character.openBox(selectedBox);
 }
 
-async function chooseAction() {
-  const actions = [
-    () => console.log("fn_1"),
-    () => console.log("fn_2"),
-    () => console.log("fn_3"),
-    () => console.log("fn_3"),
-    () => console.log("fn_5"),
-    () => console.log("fn_6"),
-  ];
-
+async function chooseAction(character: Hero) {
   const answers = await inquirer.prompt([
     {
       type: "list",
       name: "action",
-      message: "What do you want to do now?: ",
+      message: "¿Que quieres hacer a continuación?: ",
       choices: [
-        { name: "Explore", value: 0 },
-        { name: "Fight", value: 1 },
-        { name: "Inventory", value: 2 },
-        { name: "Boxes", value: 3 },
-        { name: "Character Stats", value: 4 },
-        { name: "Exit Game", value: 5 },
+        { name: "Luchar", value: 0 },
+        { name: "Ver inventario de ataques", value: 1 },
+        { name: "Abrir una caja sorpresa", value: 2 },
+        { name: "Salir del juego", value: 3 },
       ],
     },
   ]);
-
-  actions[answers.action];
+  // TODO: llamas a todas las acciones
+  if (answers.action === 2) {
+    await openBox(character);
+  }
 }
 
 async function startGame() {
-  console.log("Welcome to the RPG Game!");
+  console.log("Bienvenido al juego!");
   const myHero = await chooseCharacter();
-  await chooseAction();
+  while (1) {
+    await chooseAction(myHero);
+  }
 }
 
 startGame();
