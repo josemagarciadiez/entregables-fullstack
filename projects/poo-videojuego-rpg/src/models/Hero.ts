@@ -1,5 +1,5 @@
 import { Skill } from "../types";
-import { Box } from "./items";
+import { Box } from "./Box";
 
 /**
  * Clases abstracta:
