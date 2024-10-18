@@ -24,6 +24,4 @@ export class Archer extends Hero {
       console.log(`${this.name} esta haciendo un ataque básico...`);
     }
   }
-
-  levelUp(): void {}
 }

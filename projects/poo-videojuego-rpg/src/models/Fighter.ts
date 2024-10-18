@@ -7,6 +7,4 @@ export class Fighter extends Hero {
     super(name);
     this.strength = 25;
   }
-
-  levelUp(): void {}
 }
