@@ -13,6 +13,11 @@ export abstract class Hero {
   protected level: number;
   protected energy: number;
   protected xp: number; // <-- To check if can level up?
+  // TODO: Me gustaria que las skills sean consumibles, es decir que
+  // un Hero pueda tener mas 1 de la misma skill.
+  // ¿Podria ser un {}[] donde guardo el skill y la cantidad?
+  // o ¿guardar repetida la misma skill y despues eliminar la primer ocurrencia?
+  // y en stats hacer un Array.reduce()
   protected skills: Skill[];
 
   constructor(name: string) {
@@ -47,11 +52,6 @@ export abstract class Hero {
     return this.skills;
   }
 
-  /**
-   * useSkill
-   * @param index of skill
-   * @returns Skill selected
-   */
   useSkill(index: number): Skill | void {
     if (index + 1 > this.skills.length) {
       console.log(
@@ -87,13 +87,13 @@ export abstract class Hero {
     this.skills = [...this.skills, ...skillsToUse];
 
     if (skillsToUse.length > 0) {
-      console.log(`Felicitaciones! Has ganado ${skillsToUse.length} nuevos ataques.`);
+      console.log(
+        `Felicitaciones! Has ganado ${skillsToUse.length} nuevos ataques.`
+      );
     } else {
       console.log("Lo lamento, no has ganado ningún ataque en esta ronda :(");
     }
 
-    // TODO: Perhaps the Hero can win points of (magic | arrows | strenght)
-    // with each box opened ?
   }
 
   abstract levelUp(): void;
