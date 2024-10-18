@@ -1,5 +1,5 @@
 import { Skill } from "../types";
-import { Hero } from "./characters";
+import { Hero } from "./Hero";
 
 export class Wizard extends Hero {
   private magic: number;

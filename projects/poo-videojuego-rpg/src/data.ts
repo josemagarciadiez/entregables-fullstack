@@ -1,6 +1,7 @@
+import { Archer } from "./models/Archer";
+import { Fighter } from "./models/Fighter";
+import { Wizard } from "./models/Wizard";
 import { Skill } from "./types";
-
-import { Archer, Fighter, Wizard } from "./models/characters";
 
 export const systemSkills: Skill[] = [
   // Arquero
