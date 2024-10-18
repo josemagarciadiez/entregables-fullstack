@@ -26,6 +26,30 @@ export class Wizard extends Hero {
     }
   }
 
-  levelUp(): void {}
+  canEvolve(): { success: boolean; message: string | null } {
+    if (!(this instanceof Wizard)) {
+      return { success: false, message: "Solo los Magos pueden evolucionar." };
+    }
+
+    if (this.level < 10) {
+      return {
+        success: false,
+        message: `${this.name} aún no cuenta con el nivel necesario para evolucionar`,
+      };
+    }
+
+    if (this.xp < 100) {
+      return {
+        success: false,
+        message: `${this.name} aún no cuenta con la experiencia necesaria para evolucionar`,
+      };
+    }
+
+    return {
+      success: true,
+      message: null,
+    };
+  }
 }
 
+export class EvolvedWizard extends Wizard {}
