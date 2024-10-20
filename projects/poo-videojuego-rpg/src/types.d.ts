@@ -1,4 +1,4 @@
-import { Hero } from "./models/characters";
+import { Hero } from "./models/Hero";
 
 export type Skill = {
   name: string;
