@@ -8,20 +8,17 @@ export class Archer extends Hero {
     super(name);
     this.arrows = 25;
   }
+
   // Polimorfismo y sobrecarga de metodo
-  attack(skill?: Skill): void {
+  public attack(skill?: Skill): number {
     if (skill) {
-      if (this.arrows < skill.cost) {
-        console.log(
-          `${this.name} no tiene la cantidad necesaria de flechas para usar el ataque: ${skill.name}`
-        );
-        return;
-      }
-      this.arrows -= skill.cost;
+      const attackPower = this.generateAttackPower(this.level + skill.cost);
       this.xp += skill.xp;
-      console.log(`${this.name} esta atacando con: ${skill.name}`);
-    } else {
-      console.log(`${this.name} esta haciendo un ataque básico...`);
+      console.log(
+        `${this.name} esta atacando con ${skill.name} con un poder de ${attackPower}`
+      );
+      return attackPower;
     }
+    return super.attack();
   }
 }

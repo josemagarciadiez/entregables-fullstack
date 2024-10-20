@@ -2,42 +2,30 @@ import { Skill } from "../types";
 import { Hero } from "./Hero";
 
 export class Wizard extends Hero {
-  private magic: number;
+  protected magic: number;
 
   constructor(name: string) {
     super(name);
     this.magic = 25;
   }
 
+  public getMagic() {
+    return this.magic;
+  }
   // Polimorfismo y sobrecarga de metodo
-  attack(skill?: Skill): void {
+  public attack(skill?: Skill): number {
     if (skill) {
-      if (this.magic < skill.cost) {
-        console.log(
-          `${this.name} no tiene la magia necesaria para usar el ataque: ${skill.name}`
-        );
-        return;
-      }
-      this.magic -= skill.cost;
+      const attackPower = this.generateAttackPower(this.level + skill.cost);
       this.xp += skill.xp;
-      console.log(`${this.name} esta atacando con: ${skill.name}`);
-    } else {
-      console.log(`${this.name} esta haciendo un ataque básico...`);
+      console.log(
+        `${this.name} esta atacando con ${skill.name} con un poder de ${attackPower}`
+      );
+      return attackPower;
     }
+    return super.attack();
   }
 
-  canEvolve(): { success: boolean; message: string | null } {
-    if (!(this instanceof Wizard)) {
-      return { success: false, message: "Solo los Magos pueden evolucionar." };
-    }
-
-    if (this.level < 10) {
-      return {
-        success: false,
-        message: `${this.name} aún no cuenta con el nivel necesario para evolucionar`,
-      };
-    }
-
+  public canEvolve(): { success: boolean; message: string | null } {
     if (this.xp < 100) {
       return {
         success: false,
@@ -52,4 +40,17 @@ export class Wizard extends Hero {
   }
 }
 
-export class EvolvedWizard extends Wizard {}
+export class EvolvedWizard extends Wizard {
+  constructor(wizard: Wizard) {
+    super(wizard.getName());
+    this.energy = wizard.getEnergy();
+    this.level = 2;
+    this.xp = wizard.getXp() + 10;
+    this.magic = wizard.getMagic();
+  }
+
+  public greet(): void {
+    console.log(`${this.name} ha evolucionado.`);
+    console.log(`Ahora tiene ${this.xp} puntos de experiencia.`);
+  }
+}

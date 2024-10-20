@@ -12,63 +12,70 @@ export abstract class Hero {
   protected name: string;
   protected level: number;
   protected energy: number;
+  protected defense: number;
   protected xp: number; // <-- To check if can level up?
-  // TODO: Me gustaria que las skills sean consumibles, es decir que
-  // un Hero pueda tener mas 1 de la misma skill.
-  // ¿Podria ser un {}[] donde guardo el skill y la cantidad?
-  // o ¿guardar repetida la misma skill y despues eliminar la primer ocurrencia?
-  // y en stats hacer un Array.reduce()
   protected skills: Skill[];
 
   constructor(name: string) {
     this.name = name;
     this.level = 1;
     this.energy = 100;
+    this.defense = 50;
     this.xp = 0;
     this.skills = [];
   }
 
-  getName(): string {
+  public getName(): string {
     return this.name;
   }
 
-  attack(): void {
-    console.log(`${this.name} esta haciendo un ataque básico...`);
-  }
-
-  defend(): void {
-    console.log(`${this.name} se esta defendiendo...`);
-  }
-
-  getLevel(): number {
-    return this.level;
-  }
-
-  getEnergy(): number {
+  public getEnergy(): number {
     return this.energy;
   }
 
-  getSkills(): Skill[] {
+  public getXp(): number {
+    return this.xp;
+  }
+
+  protected generateAttackPower(level: number): number {
+    return 5 + level * 2;
+  }
+
+  public attack(): number {
+    const attackPower = this.generateAttackPower(this.level);
+    this.xp += 2;
+    console.log(
+      `${this.name} esta haciendo un ataque básico con un poder de ${attackPower}`
+    );
+    return attackPower;
+  }
+
+  public defend(damage: number): number {
+    const actualDamage = Math.max(damage - this.defense, 0);
+    this.energy -= actualDamage;
+    console.log(
+      `${this.name} ha recibido ${actualDamage} de daño. Salud restante: ${this.energy}`
+    );
+    if (this.energy <= 0) {
+      console.log(`${this.name} ha sido derrotado!`);
+    }
+
+    return actualDamage;
+  }
+
+  // Verificar si el enemigo sigue vivo
+  public isAlive(): boolean {
+    return this.energy > 0;
+  }
+
+  public getSkills(index?: number): Skill[] {
+    if (index) {
+      return [this.skills[index]];
+    }
     return this.skills;
   }
 
-  useSkill(index: number): Skill | void {
-    if (index + 1 > this.skills.length) {
-      console.log(
-        `El ataque seleccionado no existe en el inventario de ${this.name}`
-      );
-      return;
-    }
-
-    const selectedSkill = this.skills[index];
-
-    // Use selected skill (aka remove from array)
-    this.skills = this.skills.splice(index, 1);
-
-    return selectedSkill;
-  }
-
-  openBox(box: Box): void {
+  public openBox(box: Box): void {
     if (box.checkState()) {
       console.log("Esta caja ya fue abierta. Debes encontrar otra!");
     }
@@ -88,7 +95,7 @@ export abstract class Hero {
 
     if (skillsToUse.length > 0) {
       console.log(
-        `Felicitaciones! Has ganado ${skillsToUse.length} nuevos ataques.`
+        `Felicitaciones! Has ganado ${skillsToUse.length} nuevos ataques.Puedes verlos en las estadisticas de tu personaje.`
       );
     } else {
       console.log("Lo lamento, no has ganado ningún ataque en esta ronda :(");
