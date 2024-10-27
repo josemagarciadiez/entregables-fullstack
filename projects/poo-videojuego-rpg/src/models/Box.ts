@@ -47,18 +47,4 @@ export class Box {
 
     return randomSkills;
   }
-
-  public showSkills(): void {
-    if (this.opened) {
-      console.log("Esta caja ya fue abierta. Debes encontrar otra!");
-      return;
-    }
-
-    if (this.skills.length > 0) {
-      console.log("-------- Ataques ganados --------");
-      this.skills.forEach((skill, index) => {
-        console.log(`${index + 1}. ${skill.name}`);
-      });
-    }
-  }
 }

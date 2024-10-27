@@ -1,6 +1,8 @@
+import { Archer } from "./models/Archer";
+import { Enemy } from "./models/Enemy";
+import { Fighter } from "./models/Fighter";
+import { Wizard } from "./models/Wizard";
 import { Skill } from "./types";
-
-import { Archer, Fighter, Wizard } from "./models/characters";
 
 export const systemSkills: Skill[] = [
   // Arquero
@@ -35,5 +37,28 @@ export const systemSkills: Skill[] = [
   { name: "Invisibilidad", type: Wizard, xp: 13, cost: 11 },
   { name: "Invocación de Elementales", type: Wizard, xp: 4, cost: 15 },
   { name: "Explosión Arcana", type: Wizard, xp: 18, cost: 14 },
-  { name: "Control Mentalv", type: Wizard, xp: 41, cost: 11 },
+  { name: "Control Mental", type: Wizard, xp: 41, cost: 11 },
+];
+
+export const systemEnemies: Enemy[] = [
+  new Enemy("Goblin", 1),
+  new Enemy("Orco", 2),
+  new Enemy("Lobo Salvaje", 1),
+  new Enemy("Esqueleto", 3),
+  new Enemy("Bandido", 2),
+  new Enemy("Serpiente Venenosa", 3),
+  new Enemy("Troll de las Montañas", 4),
+  new Enemy("Araña Gigante", 2),
+  new Enemy("Zombi", 1),
+  new Enemy("Mago Oscuro", 5),
+  new Enemy("Gárgola", 4),
+  new Enemy("Ladrón", 2),
+  new Enemy("Harpía", 3),
+  new Enemy("Minotauro", 5),
+  new Enemy("Golem de Roca", 4),
+  new Enemy("Bruja del Pantano", 3),
+  new Enemy("Dragón Bebé", 6),
+  new Enemy("Guerrero Espectral", 4),
+  new Enemy("Necromante", 5),
+  new Enemy("Bestia del Bosque", 3),
 ];

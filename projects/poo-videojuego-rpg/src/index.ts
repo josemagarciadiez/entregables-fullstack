@@ -1,13 +1,19 @@
 import inquirer from "inquirer";
-import { Hero, Archer, Fighter, Wizard } from "./models/characters";
-import { Box } from "./models/items";
+import { Hero } from "./models/Hero";
+import { Wizard } from "./models/Wizard";
+import { Archer } from "./models/Archer";
+import { Fighter } from "./models/Fighter";
+import { evolveHero, exploreMap, showStats } from "./game";
+
+let gameLoop = true;
+let myHero;
 
 async function chooseCharacter(): Promise<Hero> {
   const answers = await inquirer.prompt([
     {
       type: "list",
       name: "character",
-      message: "Elige tu personaje:",
+      message: "Elige el tipo de heroe:",
       choices: [
         { name: "Mago", value: "wizard" },
         { name: "Arquero", value: "archer" },
@@ -30,91 +36,46 @@ async function chooseCharacter(): Promise<Hero> {
   }
 }
 
-async function attack(character: Hero) {
-  const options = character.getSkills().map((skill, index) => {
-    return { name: skill.name, value: index };
-  });
-
-  let selectedSkill;
-  if (options.length > 0) {
-    const answer = await inquirer.prompt([
-      {
-        type: "list",
-        name: "skill",
-        message: "Selecciona un ataque: ",
-        choices: options,
-      },
-    ]);
-
-    selectedSkill = character.useSkill(answer.skill);
-  } else {
-    console.log(
-      "Tu personaje no tiene ningun ataque en el inventario aún.\n Debes abrir una Caja para ganar ataques."
-    );
-  }
-
-  if (selectedSkill) {
-    if (
-      character instanceof Wizard ||
-      character instanceof Archer ||
-      character instanceof Fighter
-    ) {
-      character.attack(selectedSkill);
-    }
-  } else {
-    character.attack();
-  }
-}
-
-async function openBox(character: Hero) {
-  const random_boxes = [new Box(), new Box(), new Box()];
-
-  const answer = await inquirer.prompt([
-    {
-      type: "list",
-      name: "box",
-      message: `Por favor elije una caja sorpresa para que ${character.getName()} abra: `,
-      choices: [
-        { name: "Caja n° 1", value: 0 },
-        { name: "Caja n° 2", value: 1 },
-        { name: "Caja n° 3", value: 2 },
-      ],
-    },
-  ]);
-
-  const selectedBox = random_boxes[answer.box];
-
-  character.openBox(selectedBox);
-}
-
 async function chooseAction(character: Hero) {
-  const answers = await inquirer.prompt([
+  const actions = {
+    explore: exploreMap,
+    evolve: evolveHero,
+    stats: showStats,
+    exit: () => {
+      console.log("Adios! Vuelve pronto!");
+      gameLoop = false;
+    },
+  };
+
+  const answers: { action: keyof typeof actions } = await inquirer.prompt([
     {
       type: "list",
       name: "action",
       message: "¿Que quieres hacer a continuación?: ",
       choices: [
-        { name: "Luchar", value: 0 },
-        { name: "Ver inventario de ataques", value: 1 },
-        { name: "Abrir una caja sorpresa", value: 2 },
-        { name: "Salir del juego", value: 3 },
+        { name: "Explorar", value: "explore" },
+        { name: "Evolucionar", value: "evolve" },
+        { name: "Estadisticas", value: "stats" },
+        { name: "Salir del juego", value: "exit" },
       ],
     },
   ]);
-  // TODO: llamas a todas las acciones
-  if (answers.action === 2) {
-    await openBox(character);
+
+  const action = actions[answers.action];
+
+  if (!action) {
+    console.log("La opción elegida no es valida!");
+    return;
   }
+  await action(character);
 }
 
 async function startGame() {
   console.log("Bienvenido al juego!");
-  const myHero = await chooseCharacter();
-  while (1) {
+  myHero = await chooseCharacter();
+  while (gameLoop) {
     await chooseAction(myHero);
   }
 }
 
 startGame();
-
-// Steps of a game
